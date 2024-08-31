@@ -151,7 +151,7 @@ public class Gimnasio {
                         if (!clase.isDisponible() && clase.getCapacidad() > 0) {
                             clase.setDisponible(true);
                         }
-
+                        System.out.println("reserva eliminada");
                         return;
                     }
                 }
@@ -159,5 +159,25 @@ public class Gimnasio {
         }
     }
     
+    public void agregarEntrenamiento(Cliente cliente, Entrenamiento entrenamiento){
+        for(Cliente client: clientes){
+            if(client.getNombre().equals(cliente.getNombre())){
+                client.addEntrenamientos(entrenamiento);
+                System.out.println("entrenamiento agregado correctamente");
+            }
+        }
+    }
+    
+
+    public void consultarEntrenamientos(Cliente cliente){
+        for(Cliente client: clientes){
+            if(client.getNombre().equals(cliente.getNombre())){
+                System.out.println("el cliente "+ client.getNombre() + "ha hecho los siguientes ejercicios: " );
+                for(Entrenamiento entren: client.getEntrenamientos()){
+                    System.out.println(entren.getTipoEntrenamiento());
+                }
+            }
+        }
+    }
 
 }

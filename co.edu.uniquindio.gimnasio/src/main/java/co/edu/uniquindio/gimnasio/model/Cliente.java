@@ -1,10 +1,9 @@
 package co.edu.uniquindio.gimnasio.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -58,7 +57,7 @@ public class Cliente extends Usuario {
         return entrenamientos;
     }
 
-    public void setEntrenamientos(List<Entrenamiento> entrenamientos) {
-        this.entrenamientos = entrenamientos;
+    public void addEntrenamientos(Entrenamiento entrenamientos) {
+        this.entrenamientos.add(entrenamientos);
     }
 }
