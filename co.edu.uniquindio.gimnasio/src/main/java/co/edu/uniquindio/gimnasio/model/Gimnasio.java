@@ -111,56 +111,53 @@ public class Gimnasio {
     }
 
     // Método para reservar una clase
-    public String reservarClase(Cliente cliente, String nombreDeClase, String hora) {
+    public void reservarClase(Cliente cliente, String nombreDeClase, String hora, Reserva reserva) {
         for(Clase clase: clases){
             if(clase.getNombre().equals(nombreDeClase)){
                 if(clase.isDisponible()){
                     for(String horar: clase.getHorario()){
                         if(horar == hora){
-                            Sysout("espacio no disponible");
+                            System.out.print("horario no disponible");
+                        }else{
+                            if(clase.getCapacidad()<=0){
+                                clase.setDisponible(false);
+                                System.out.print("reservas no disponibles");
+                            }else{
+                                clase.addHorario(hora);
+                                clase.setCapacidad(clase.getCapacidad()-1);
+                                clase.addInscritos(reserva);
+                            }
                         }
                     }
+                }else{
+                    System.out.print("clase no disponible");
                 }
-            }
-        }
-
-        /*
-        Clase claseSeleccionada = null;
-
-        // Buscar la clase por ID
-        for (Clase clase : clases) {
-            if (clase.getId().equals(idClase)) {
-                claseSeleccionada = clase;
                 break;
             }
         }
 
-        if (claseSeleccionada == null) {
-            return "Clase no encontrada.";
-        }
-
-        // Verificar disponibilidad de plazas
-        if (claseSeleccionada.getCapacidad() <= 0) {
-            return "No hay plazas disponibles para esta clase.";
-        }
-
-        // Realizar la reserva
-        claseSeleccionada.setCapacidad(claseSeleccionada.getCapacidad() - 1);
-        if (claseSeleccionada.getCapacidad() == 0) {
-            claseSeleccionada.setDisponible(true);
-        }
-
-        Reserva nuevaReserva = new Reserva(claseSeleccionada, cliente, LocalDateTime.now());
-        reserva.add(nuevaReserva);
-
-        return "Reserva realizada con éxito para la clase " + claseSeleccionada.getNombre() + ".";
-         */
     }
 
+    public void cancelarClase(String nombreDeClase, Reserva reserva) {
+        for (Clase clase : clases) {
+            if (clase.getNombre().equals(nombreDeClase)) {
+                List<Reserva> inscritos = clase.getInscritos();
+                for (Reserva reserv : inscritos) {
+                    if (reserv.getCodigo().equals(reserva.getCodigo())) {
+                        clase.getInscritos().remove(reserv);
+                        
+                        clase.setCapacidad(clase.getCapacidad() + 1);
+                        
+                        if (!clase.isDisponible() && clase.getCapacidad() > 0) {
+                            clase.setDisponible(true);
+                        }
 
-
-
-
-
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    
 
 }
